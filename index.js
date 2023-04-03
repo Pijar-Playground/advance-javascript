@@ -1,19 +1,19 @@
-const request = fetch("https://jsonplaceholder.typicode.com/users");
+const request = fetch("https://pokeapi.co/api/v2/pokemon");
 let dataCollection = "";
 
 request
   .then((res) => res.json())
   .then((res) => {
-    res.forEach((item, key) => {
+    res.results.forEach((item, key) => {
+      const pokeId = item.url.split('/');
       dataCollection += `
-        <tr>
-          <th>${++key}</th>
-          <th>${item.name}</th>
-          <th>${item.email}</th>
-          <th>${item.phone}</th>
-        </tr>
+        <div class="card">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokeId[6]}.png" />
+          <h2>${item.name}</h2>
+          <p class="ellipsis">${item.url}</p>
+        </div>
       `;
-    })
+    });
 
     document.getElementById("content").innerHTML = dataCollection;
   })
